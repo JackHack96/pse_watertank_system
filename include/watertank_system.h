@@ -9,6 +9,7 @@
 #include "watertank_LSF_transactor.h"
 #include "XTEA_RTL_transactor.h"
 #include "valve_iface.h"
+#include "watertank_iface.h"
 
 class watertank_system : public sc_module {
 public:
@@ -21,20 +22,25 @@ public:
   watertank_LSF_transactor watertank_transactor;
   XTEA_RTL_transactor xtea_transactor;
   valve_iface valve_interface;
+  watertank_iface watertank_interface;
 
   sca_tdf::sca_signal<double> aperture_threshold_ams;
   sca_tdf::sca_signal<VALVE_COMMAND> command_ams;
   sca_tdf::sca_signal<double> current_aperture_ams;
+  sca_tdf::sca_signal<double> water_level_ams;
 
   sc_core::sc_signal<double> water_level;
   sc_core::sc_signal<sc_uint<32>> command;
   sc_core::sc_signal<double> aperture_threshold;
 
-  sc_clock clk;
+  sc_signal<bool> clk;
   sc_signal<bool> rst, input_ready, output_ready;
   sc_signal<sc_uint<32>> text_input[2];
   sc_signal<sc_uint<32>> key_input[4];
   sc_signal<sc_uint<32>> data_output[2];
+
+  void clock();
+  SC_HAS_PROCESS(watertank_system);
 };
 
 #endif //WATERTANK_SYSTEM_WATERTANK_SYSTEM_H

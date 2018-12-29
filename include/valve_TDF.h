@@ -18,7 +18,7 @@ public:
   void set_attributes() override;
 
 private:
-  double current_aperture;
+  double current_aperture, current_threshold;
 };
 
 #endif //WATERTANK_SYSTEM_VALVE_TDF_H

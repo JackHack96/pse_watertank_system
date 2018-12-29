@@ -16,6 +16,7 @@ add_executable(watertank_system
         src/XTEA_RTL.cpp
         src/XTEA_RTL_transactor.cpp
         src/controller_TLM.cpp
+        src/watertank_iface.cpp
         src/watertank_LSF_transactor.cpp
         src/watertank_system.cpp
         src/main.cpp)

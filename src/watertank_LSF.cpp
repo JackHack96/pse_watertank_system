@@ -35,5 +35,5 @@ watertank_LSF::watertank_LSF(sc_module_name) :
 
   // write the value
   converter2.x(sig4);
-  converter2.outp(water_level);
+  converter2.outp(water_level_ams);
 }

@@ -5,7 +5,7 @@
 
 class watertank_LSF : public sc_core::sc_module {
 public:
-  sc_core::sc_out<double> water_level;
+  sca_tdf::sca_out<double> water_level_ams;
   sca_tdf::sca_in<double> aperture_ams;
 
   explicit watertank_LSF(sc_module_name);
@@ -13,7 +13,7 @@ public:
 private:
 
   sca_lsf::sca_tdf::sca_source converter1;
-  sca_lsf::sca_de::sca_sink converter2;
+  sca_lsf::sca_tdf::sca_sink converter2;
 
   sca_lsf::sca_gain mul1, mul2;
   sca_lsf::sca_sub sub;

@@ -10,7 +10,7 @@ void watertank_LSF_transactor::b_transport(tlm::tlm_generic_payload &trans,
                                            sc_time &t) {
   watertank_packet = *((watertank_packet_struct *) trans.get_data_ptr());
   watertank_packet.water_level = water_level.read();
-  trans.set_data_ptr((unsigned char *) &watertank_packet);
+  *((watertank_packet_struct *) trans.get_data_ptr()) = watertank_packet;
 }
 
 bool watertank_LSF_transactor::get_direct_mem_ptr(

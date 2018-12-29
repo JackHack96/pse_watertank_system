@@ -10,7 +10,7 @@ public:
   // TLM side
   tlm::tlm_target_socket<> target_socket;
   xtea_packet_struct xtea_packet;
-  sc_event begin_write, end_write, begin_read, end_read;
+  sc_event begin_write, end_write;
 
   // TLM interfaces
   void b_transport(tlm::tlm_generic_payload &trans, sc_time &t) override;

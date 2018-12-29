@@ -1,7 +1,7 @@
 #ifndef WATERTANK_SYSTEM_WATERTANK_LSF_TRANSACTOR_H
 #define WATERTANK_SYSTEM_WATERTANK_LSF_TRANSACTOR_H
 
-#include <systemc.h>
+#include <systemc-ams.h>
 #include <tlm.h>
 #include "iostructs.h"
 
@@ -31,7 +31,7 @@ public:
   explicit watertank_LSF_transactor(sc_module_name name);
 
   // RTL Interface
-  sc_in<double> water_level;
+  sc_core::sc_in<double> water_level;
 };
 
 #endif // WATERTANK_SYSTEM_WATERTANK_LSF_TRANSACTOR_H

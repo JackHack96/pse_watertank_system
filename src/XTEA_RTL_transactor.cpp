@@ -14,9 +14,9 @@ void XTEA_RTL_transactor::b_transport(tlm::tlm_generic_payload &trans,
   switch (trans_command) {
   case tlm::TLM_WRITE_COMMAND:
     xtea_packet = *((xtea_packet_struct *)trans.get_data_ptr());
-    trans.set_response_status(tlm::TLM_OK_RESPONSE);
     begin_write.notify();
     wait(end_write);
+    trans.set_response_status(tlm::TLM_OK_RESPONSE);
     break;
   case tlm::TLM_READ_COMMAND:
     trans.set_response_status(tlm::TLM_OK_RESPONSE);

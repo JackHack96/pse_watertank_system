@@ -7,14 +7,14 @@ valve_TDF::valve_TDF(sc_core::sc_module_name) :
 }
 
 void valve_TDF::processing() {
+  current_threshold = aperture_threshold_ams.read();
   switch (command_ams.read()) {
-  case IDLE:
-    break;
+  case IDLE:break;
   case OPEN:
-    if (current_aperture < aperture_threshold_ams.read()) // valve's aperture_ams can be opened more
+    if (current_aperture < current_threshold) // valve's aperture_ams can be opened more
       current_aperture += 0.25 * get_timestep().to_seconds();
     else // we can't open the valve more than this
-      current_aperture = aperture_threshold_ams.read();
+      current_aperture = current_threshold;
     break;
   case CLOSE:
     if (current_aperture > 0) // valve's aperture_ams can be closed more
@@ -28,5 +28,4 @@ void valve_TDF::processing() {
 
 void valve_TDF::set_attributes() {
   this->set_timestep(1, SC_MS);
-  command_ams.set_delay(1);
 }

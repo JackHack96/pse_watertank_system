@@ -3,15 +3,15 @@
 controller_TLM::controller_TLM(sc_module_name name) : sc_module(name) {
   watertank_socket(*this);
   xtea_socket(*this);
+  valve_aperture_threshold = 0.7;
   SC_THREAD(run);
 }
 
 void controller_TLM::run() {
   sc_time local_time;
   tlm::tlm_generic_payload payload;
-  while (true) {
-    wait(1000, SC_MS);
-
+  do {
+    wait(5, SC_SEC); // Note: 2 secs produce better output, but professor told us to use 5
     // load packet from watertank transactor
     payload.set_data_ptr((unsigned char *) &watertank_packet);
     payload.set_address(0);
@@ -24,9 +24,9 @@ void controller_TLM::run() {
     xtea_packet.key[3] = key[3];
     xtea_packet.text[1] = 0;
 
-    if (watertank_packet.water_level >= 5 && watertank_packet.water_level <= 8.8)
+    if (watertank_packet.water_level >= 5 && watertank_packet.water_level <= 8.8) {
       xtea_packet.text[0] = VALVE_COMMAND::IDLE;
-    else if (watertank_packet.water_level > 8.8) {
+    } else if (watertank_packet.water_level > 8.8) {
       xtea_packet.text[0] = VALVE_COMMAND::CLOSE;
       valve_aperture_threshold *= 0.7;
     } else if (watertank_packet.water_level < 5) {
@@ -44,9 +44,12 @@ void controller_TLM::run() {
     // Start write transaction
     xtea_socket->b_transport(payload, local_time);
 
-    // Write aperture threshold to the valve transactor
-    aperture_threshold.write(valve_aperture_threshold);
-  }
+    // Wait on XTEA acknowledgment
+    if (payload.get_response_status() == tlm::TLM_OK_RESPONSE) {
+      // Write aperture threshold to the valve transactor
+      aperture_threshold.write(valve_aperture_threshold);
+    }
+  } while (true);
 }
 
 void controller_TLM::invalidate_direct_mem_ptr(uint64 start_range, uint64 end_range) {}
