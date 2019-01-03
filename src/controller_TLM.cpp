@@ -11,7 +11,7 @@ void controller_TLM::run() {
   sc_time local_time;
   tlm::tlm_generic_payload payload;
   do {
-    wait(5, SC_SEC); // Note: 2 secs produce better output, but professor told us to use 5
+    wait(2, SC_SEC); // Note: 2 secs produce better output, but professor told us to use 5
     // load packet from watertank transactor
     payload.set_data_ptr((unsigned char *) &watertank_packet);
     payload.set_address(0);
